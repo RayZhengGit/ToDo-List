@@ -1,21 +1,43 @@
+import { useState } from "react";
+
 type ListItemProps = {
     description: string;
+    removeInput: Function
 }
 
-const ListItem: React.FC<ListItemProps> = ({ description }) => {
+const ListItem: React.FC<ListItemProps> = ({ description, removeInput }) => {
+    const [completed, setCompleted] = useState(false);
+
     return (
-        <div style={{border: '1px solid black',
+        <div className={completed ? 'item complete' : 'item'} 
+             style={{border: '1px solid black',
                      backgroundColor: "azure",
                      borderRadius: 15,
-                     margin: 10}}>
-            <div style={{display:"inline-block",
-                        verticalAlign:"middle",}}>
-                <input type="checkbox" style={{verticalAlign: "text-bottom"}}></input>
-                <h2 style={{color: 'slategray',
-                            display:"inline-block",
-                            verticalAlign:"middle"}}>{description}</h2>
-            </div>
-            
+                     margin: 10,
+                     width: "500px"
+                     }}>
+                <h2 style={{color: 'slategray', 
+                            textAlign: "center",
+                            position: "relative"}}>
+                    <input type="checkbox" 
+                            onClick={() => {
+                                if (completed) {
+                                    setCompleted(false)
+                                } else {
+                                    setCompleted(true)
+                                }
+                                
+                            }}
+                            style={{float: "left",
+                            marginRight: "-50%"}} 
+                            />
+                    {description}
+                    <input type="image" src="src\assets\trash_icon.png" height="25px" width="25px"
+                        style={{float: "right",
+                        marginLeft: "-50%"}}
+                        onClick={() => {
+                            removeInput(description);}}/>
+                </h2>
         </div>
     )
 }
